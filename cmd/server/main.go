@@ -11,6 +11,8 @@ import (
 	"github.com/brianvoe/gofakeit"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
+	desc "github.com/MilaSnetkova/gRPC/pkg/note_v1"
+
 )
 
 const Port = 50051 
@@ -26,7 +28,7 @@ func(s *server) Get(ctx context.Context, req *desc.GetRequest) (*desc.GetRespons
 		Note:&desc.Note{
 			Id: req.GetId(), 
 			Info: &desc.NoteInfo{
-			Title:    gofakeit.BeerName(),
+			Tittle:    gofakeit.BeerName(),
 			Content:  gofakeit.IPv4Address(),
 			Author:   gofakeit.Name(),
 			IsPublic: gofakeit.Bool(),
@@ -46,7 +48,7 @@ func main() {
 
 	s := grpc.NewServer()
 	reflection.Register(s)
-	desc.RegisterNoteServer(s, &server{})
+	desc.RegisterNoteV1Server(s, &server{})
 
 	log.Printf("server listening at %v", lis.Addr())
 
